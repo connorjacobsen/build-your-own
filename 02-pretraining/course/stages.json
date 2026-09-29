@@ -1,0 +1,226 @@
+[
+  {
+    "number": 1,
+    "title": "Define the token boundary",
+    "symbols": "encode_bytes",
+    "chapter": "course/chapters/01_encode-bytes.md",
+    "tests": [
+      "grader/test_stages.py::test_01"
+    ],
+    "hints": [
+      "Separate byte values from special IDs.",
+      "Encode the string before adding sequence boundaries.",
+      "Empty text still has BOS and EOS."
+    ]
+  },
+  {
+    "number": 2,
+    "title": "Shift inputs and targets",
+    "symbols": "next_token_batch",
+    "chapter": "course/chapters/02_next-token-batch.md",
+    "tests": [
+      "grader/test_stages.py::test_02"
+    ],
+    "hints": [
+      "Identify the token each input position predicts.",
+      "The target window starts one position later.",
+      "A window needs context+1 available tokens."
+    ]
+  },
+  {
+    "number": 3,
+    "title": "Compute stable token loss",
+    "symbols": "token_loss",
+    "chapter": "course/chapters/03_token-loss.md",
+    "tests": [
+      "grader/test_stages.py::test_03"
+    ],
+    "hints": [
+      "Work with logits rather than rounded probabilities.",
+      "Subtract the selected logit from a stable log normalizer.",
+      "Average over every target position and keep the result differentiable."
+    ]
+  },
+  {
+    "number": 4,
+    "title": "Normalize residual activations",
+    "symbols": "RMSNorm",
+    "chapter": "course/chapters/04_rmsnorm.md",
+    "tests": [
+      "grader/test_stages.py::test_04"
+    ],
+    "hints": [
+      "Normalize magnitude without subtracting the mean.",
+      "Reduce squared values over the final dimension.",
+      "Epsilon belongs inside the square root; learned weights scale channels afterward."
+    ]
+  },
+  {
+    "number": 5,
+    "title": "Encode relative position by rotation",
+    "symbols": "rope",
+    "chapter": "course/chapters/05_rope.md",
+    "tests": [
+      "grader/test_stages.py::test_05"
+    ],
+    "hints": [
+      "Inspect a single adjacent coordinate pair.",
+      "Position times frequency gives its rotation angle.",
+      "Position zero is identity and each pair preserves squared norm."
+    ]
+  },
+  {
+    "number": 6,
+    "title": "Implement causal grouped-query attention",
+    "symbols": "attention",
+    "chapter": "course/chapters/06_attention.md",
+    "tests": [
+      "grader/test_stages.py::test_06"
+    ],
+    "hints": [
+      "Map a local query row to its absolute position.",
+      "Consecutive groups of query heads share one KV head.",
+      "Normalize scores over visible keys, never over query rows."
+    ]
+  },
+  {
+    "number": 7,
+    "title": "Build one decoder layer",
+    "symbols": "DecoderLayer",
+    "chapter": "course/chapters/07_decoderlayer.md",
+    "tests": [
+      "grader/test_stages.py::test_07"
+    ],
+    "hints": [
+      "Draw the two residual branches separately.",
+      "Attention projection and SwiGLU return to model width.",
+      "The feed-forward gate and up projection multiply before the down projection."
+    ]
+  },
+  {
+    "number": 8,
+    "title": "Assemble a trainable decoder",
+    "symbols": "TinyLM",
+    "chapter": "course/chapters/08_tinylm.md",
+    "tests": [
+      "grader/test_stages.py::test_08"
+    ],
+    "hints": [
+      "Trace one sequence through embeddings and every layer.",
+      "Register modules under the exact checkpoint names.",
+      "Return raw logits and post-rotation keys; keep the dense graph differentiable."
+    ]
+  },
+  {
+    "number": 9,
+    "title": "Implement AdamW",
+    "symbols": "adamw_step",
+    "chapter": "course/chapters/09_adamw-step.md",
+    "tests": [
+      "grader/test_stages.py::test_09"
+    ],
+    "hints": [
+      "Separate moment updates from parameter decay.",
+      "Bias correction depends on the incremented step count.",
+      "Decoupled decay acts on parameters, not on the raw gradient."
+    ]
+  },
+  {
+    "number": 10,
+    "title": "Schedule the learning rate",
+    "symbols": "cosine_lr",
+    "chapter": "course/chapters/10_cosine-lr.md",
+    "tests": [
+      "grader/test_stages.py::test_10"
+    ],
+    "hints": [
+      "Check the three endpoints before the interior.",
+      "Warmup reaches peak exactly at its boundary.",
+      "Clamp the cosine fraction after the total step count."
+    ]
+  },
+  {
+    "number": 11,
+    "title": "Clip a global gradient norm",
+    "symbols": "clip_grad",
+    "chapter": "course/chapters/11_clip-grad.md",
+    "tests": [
+      "grader/test_stages.py::test_11"
+    ],
+    "hints": [
+      "Treat all parameter gradients as one vector.",
+      "Compute one norm before changing any tensor.",
+      "Use one common scale factor; reject nonfinite norms before mutation."
+    ]
+  },
+  {
+    "number": 12,
+    "title": "Perform one token-weighted update",
+    "symbols": "train_step",
+    "chapter": "course/chapters/12_train-step.md",
+    "tests": [
+      "grader/test_stages.py::test_12"
+    ],
+    "hints": [
+      "Count the actual target tokens.",
+      "Accumulate loss sums, not equally weighted sequence means.",
+      "Zero gradients once, backpropagate the aggregate once, then step."
+    ]
+  },
+  {
+    "number": 13,
+    "title": "Save resumable state",
+    "symbols": "save_checkpoint",
+    "chapter": "course/chapters/13_save-checkpoint.md",
+    "tests": [
+      "grader/test_stages.py::test_13"
+    ],
+    "hints": [
+      "List what affects the next update besides weights.",
+      "Adam moments and CPU RNG state must be saved.",
+      "A resume checkpoint and an inference export have different consumers."
+    ]
+  },
+  {
+    "number": 14,
+    "title": "Resume without changing the trajectory",
+    "symbols": "load_checkpoint",
+    "chapter": "course/chapters/14_load-checkpoint.md",
+    "tests": [
+      "grader/test_stages.py::test_14"
+    ],
+    "hints": [
+      "Compare the next update, not just loaded values.",
+      "Restore optimizer hyperparameters as well as moments.",
+      "Restore RNG after constructing the replacement model."
+    ]
+  },
+  {
+    "number": 15,
+    "title": "Train and diagnose a tiny model",
+    "symbols": "train_run",
+    "chapter": "course/chapters/15_train-run.md",
+    "tests": [
+      "grader/test_stages.py::test_15"
+    ],
+    "hints": [
+      "Try memorizing one short sequence as a diagnostic.",
+      "Keep initialization inside a local random-state scope.",
+      "Reuse train_step so the tested update is the one used by the loop."
+    ]
+  },
+  {
+    "number": 16,
+    "title": "Export a portable model artifact",
+    "symbols": "export_model",
+    "chapter": "course/chapters/16_export-model.md",
+    "tests": [
+      "grader/test_stages.py::test_16"
+    ],
+    "hints": [
+      "Record the architecture and tokenizer with the weights.",
+      "Detach, clone and move exported tensors to CPU.",
+      "Hash the finished file bytes; export no optimizer state."
+    ]
+  }
+]

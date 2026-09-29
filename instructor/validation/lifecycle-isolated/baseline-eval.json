@@ -1,0 +1,1 @@
+{"cases":[{"id":"doc-012","prediction":"1","score":0.0},{"id":"doc-019","prediction":"1","score":1.0}],"dataset_sha256":"a5602432cd715370d7a5376836388c4ef508ef56e5c5ce875e11d3afd4b9e2a4","format":"toyeval-v1","metrics":{"accuracy":0.5,"n":2},"model_sha256":"a9aa1c6aca4900a2738bd73f7e08014ce65c35649f929e78122a5196c44f24f8"}

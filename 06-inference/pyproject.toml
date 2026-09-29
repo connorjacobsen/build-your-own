@@ -1,0 +1,43 @@
+[project]
+name = "model-course-06-inference"
+version = "0.2.0"
+description = "A staged, independently graded build-your-own inference engine course"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "torch>=2.6,<2.8",
+  "numpy>=2.1,<3",
+  "fastapi>=0.115,<0.116",
+  "uvicorn>=0.34,<1",
+  "httpx>=0.28,<1",
+]
+
+[project.scripts]
+course = "course_cli.main:main"
+
+[dependency-groups]
+dev = ["pytest>=8.3,<9", "pytest-timeout>=2.3,<3", "ruff>=0.11,<0.12"]
+gpu = ["modal>=1.0,<2"]
+notebooks = ["matplotlib>=3.9,<4", "jupyterlab>=4.3,<5", "ipykernel>=6.29,<7", "nbformat>=5.10,<6", "nbclient>=0.10,<0.11", "ipywidgets>=8.1,<9"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/toyvllm", "course_cli", "grader"]
+
+[tool.pytest.ini_options]
+testpaths = ["grader/stages"]
+pythonpath = [".", "src"]
+timeout = 15
+markers = ["examples: published example behavior", "extended: additional instructor acceptance cases", "gpu: requires real NVIDIA CUDA execution"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+
+[tool.ruff.format]
+exclude = ["instructor/archive/**"]

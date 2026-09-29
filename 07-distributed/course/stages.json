@@ -1,0 +1,198 @@
+[
+  {
+    "number": 1,
+    "title": "Partition examples without duplication",
+    "symbols": "partition_indices",
+    "chapter": "course/chapters/01_partition-indices.md",
+    "tests": [
+      "grader/test_stages.py::test_01"
+    ],
+    "hints": [
+      "Assign every example to exactly one rank.",
+      "A strided sequence naturally gives unequal local counts.",
+      "Do not pad by duplicating examples."
+    ]
+  },
+  {
+    "number": 2,
+    "title": "Assign contiguous tensor shards",
+    "symbols": "shard_bounds",
+    "chapter": "course/chapters/02_shard-bounds.md",
+    "tests": [
+      "grader/test_stages.py::test_02"
+    ],
+    "hints": [
+      "Use quotient and remainder to balance ownership.",
+      "Earlier ranks receive the remainder elements.",
+      "Half-open empty ranges still have valid start=end metadata."
+    ]
+  },
+  {
+    "number": 3,
+    "title": "Flatten a communication bucket",
+    "symbols": "flatten_tensors",
+    "chapter": "course/chapters/03_flatten-tensors.md",
+    "tests": [
+      "grader/test_stages.py::test_03"
+    ],
+    "hints": [
+      "Fix one ordered flat layout for communication.",
+      "Concatenation can preserve gradients while owning new storage.",
+      "Validate dtype and device before flattening."
+    ]
+  },
+  {
+    "number": 4,
+    "title": "Restore shapes through views",
+    "symbols": "unflatten",
+    "chapter": "course/chapters/04_unflatten.md",
+    "tests": [
+      "grader/test_stages.py::test_04"
+    ],
+    "hints": [
+      "Track a cursor through the flat buffer.",
+      "Each shape consumes its product of dimensions.",
+      "Return views; exact coverage is required."
+    ]
+  },
+  {
+    "number": 5,
+    "title": "Accumulate uneven microbatches",
+    "symbols": "accumulate_gradients",
+    "chapter": "course/chapters/05_accumulate-gradients.md",
+    "tests": [
+      "grader/test_stages.py::test_05"
+    ],
+    "hints": [
+      "Compare with one large-batch objective.",
+      "Use total examples as the denominator across all microbatches.",
+      "Clear gradients once and do not update between microbatches."
+    ]
+  },
+  {
+    "number": 6,
+    "title": "Reduce weighted means across processes",
+    "symbols": "weighted_allreduce",
+    "chapter": "course/chapters/06_weighted-allreduce.md",
+    "tests": [
+      "grader/test_stages.py::test_06"
+    ],
+    "hints": [
+      "An average of averages needs weights.",
+      "Reduce weighted sums and counts in the same order on every rank.",
+      "Zero-work ranks still enter both collectives."
+    ]
+  },
+  {
+    "number": 7,
+    "title": "Train with real synchronized gradients",
+    "symbols": "distributed_step",
+    "chapter": "course/chapters/07_distributed-step.md",
+    "tests": [
+      "grader/test_stages.py::test_07"
+    ],
+    "hints": [
+      "All replicas must apply the same final gradient.",
+      "Sum local losses and gradients, then divide by global count.",
+      "An empty local batch must not return before collectives."
+    ]
+  },
+  {
+    "number": 8,
+    "title": "Keep only local optimizer state",
+    "symbols": "shard_state",
+    "chapter": "course/chapters/08_shard-state.md",
+    "tests": [
+      "grader/test_stages.py::test_08"
+    ],
+    "hints": [
+      "A slice can still retain the full original storage.",
+      "Use the balanced contiguous bounds for ownership.",
+      "Clone only the owned momentum range."
+    ]
+  },
+  {
+    "number": 9,
+    "title": "Update sharded momentum and gather weights",
+    "symbols": "sharded_momentum_step",
+    "chapter": "course/chapters/09_sharded-momentum-step.md",
+    "tests": [
+      "grader/test_stages.py::test_09"
+    ],
+    "hints": [
+      "Separate replicated parameters from sharded optimizer state.",
+      "Update only the owned range, then gather the updated parameter pieces.",
+      "Pad collective payloads but trim each rank to its true ownership length."
+    ]
+  },
+  {
+    "number": 10,
+    "title": "Unscale only finite gradients",
+    "symbols": "unscale_gradients",
+    "chapter": "course/chapters/10_unscale-gradients.md",
+    "tests": [
+      "grader/test_stages.py::test_10"
+    ],
+    "hints": [
+      "Check all gradients before dividing any.",
+      "A nonfinite value makes the entire local unscale fail.",
+      "Missing gradients can be ignored; invalid scale cannot."
+    ]
+  },
+  {
+    "number": 11,
+    "title": "Trade activation memory for recomputation",
+    "symbols": "checkpointed",
+    "chapter": "course/chapters/11_checkpointed.md",
+    "tests": [
+      "grader/test_stages.py::test_11"
+    ],
+    "hints": [
+      "Distinguish activation recomputation from file checkpoints.",
+      "Use the non-reentrant checkpoint primitive.",
+      "A backward pass should trigger another function execution when intermediates are needed."
+    ]
+  },
+  {
+    "number": 12,
+    "title": "Consolidate checkpoint shards",
+    "symbols": "consolidate_shards",
+    "chapter": "course/chapters/12_consolidate-shards.md",
+    "tests": [
+      "grader/test_stages.py::test_12"
+    ],
+    "hints": [
+      "Validate global coverage before assembling values.",
+      "Sort shards by range, then advance one coverage cursor.",
+      "Reject both gaps and overlaps, even when the final element count looks right."
+    ]
+  },
+  {
+    "number": 13,
+    "title": "Coordinate skipped updates",
+    "symbols": "collective_finite",
+    "chapter": "course/chapters/13_collective-finite.md",
+    "tests": [
+      "grader/test_stages.py::test_13"
+    ],
+    "hints": [
+      "The skip decision must agree on every rank.",
+      "Reduce a finite flag with an all-ranks conjunction.",
+      "One rank\u2019s infinity must make every rank return false before an update."
+    ]
+  },
+  {
+    "number": 14,
+    "title": "Run the same contract on two GPUs",
+    "symbols": "distributed_step, collective_finite",
+    "chapter": "course/chapters/14_distributed-step.md",
+    "tests": [
+      "grader/test_stages.py::test_14"
+    ],
+    "hints": [
+      "CPU semantics do not establish CUDA execution.",
+      "Use one process and local device assignment per GPU.",
+      "NCCL payloads must be on the selected GPU and updates must match the global reference."
+    ]
+  }
+]

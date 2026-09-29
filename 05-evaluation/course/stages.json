@@ -1,0 +1,198 @@
+[
+  {
+    "number": 1,
+    "title": "Specify answer normalization",
+    "symbols": "normalize_answer",
+    "chapter": "course/chapters/01_normalize-answer.md",
+    "tests": [
+      "grader/test_stages.py::test_01"
+    ],
+    "hints": [
+      "Decide exactly which differences the metric ignores.",
+      "ASCII punctuation removal differs from replacing punctuation with spaces.",
+      "Do not silently add article removal or semantic matching."
+    ]
+  },
+  {
+    "number": 2,
+    "title": "Score acceptable references",
+    "symbols": "exact_match",
+    "chapter": "course/chapters/02_exact-match.md",
+    "tests": [
+      "grader/test_stages.py::test_02"
+    ],
+    "hints": [
+      "Treat references as alternative valid answers.",
+      "Normalize prediction and references under the same policy.",
+      "An empty reference set is invalid data, not a score of zero."
+    ]
+  },
+  {
+    "number": 3,
+    "title": "Score a continuation at the right offset",
+    "symbols": "continuation_logp",
+    "chapter": "course/chapters/03_continuation-logp.md",
+    "tests": [
+      "grader/test_stages.py::test_03"
+    ],
+    "hints": [
+      "Map every continuation target to its preceding logit.",
+      "The prompt supplies context but its targets do not contribute.",
+      "The final model row predicts a token outside the observed sequence."
+    ]
+  },
+  {
+    "number": 4,
+    "title": "Make length normalization explicit",
+    "symbols": "rank_choices",
+    "chapter": "course/chapters/04_rank-choices.md",
+    "tests": [
+      "grader/test_stages.py::test_04"
+    ],
+    "hints": [
+      "Keep summed and normalized scoring as explicit alternatives.",
+      "Divide by continuation token count only in normalized mode.",
+      "A tie chooses the earliest candidate."
+    ]
+  },
+  {
+    "number": 5,
+    "title": "Aggregate perplexity by token count",
+    "symbols": "perplexity",
+    "chapter": "course/chapters/05_perplexity.md",
+    "tests": [
+      "grader/test_stages.py::test_05"
+    ],
+    "hints": [
+      "Return to total NLL and token counts before aggregation.",
+      "Apply the exponential only after computing global mean NLL.",
+      "A mean of document perplexities changes both weighting and the nonlinear operation."
+    ]
+  },
+  {
+    "number": 6,
+    "title": "Count classification outcomes",
+    "symbols": "confusion_matrix",
+    "chapter": "course/chapters/06_confusion-matrix.md",
+    "tests": [
+      "grader/test_stages.py::test_06"
+    ],
+    "hints": [
+      "Fix the meaning of each axis.",
+      "Increment one true-row/predicted-column entry per case.",
+      "Keep declared empty classes in the matrix."
+    ]
+  },
+  {
+    "number": 7,
+    "title": "Distinguish macro and micro behavior",
+    "symbols": "classification_metrics",
+    "chapter": "course/chapters/07_classification-metrics.md",
+    "tests": [
+      "grader/test_stages.py::test_07"
+    ],
+    "hints": [
+      "Compute class scores from row and column counts.",
+      "Each class denominator is true count plus predicted count.",
+      "Macro includes zero-score absent classes under this contract."
+    ]
+  },
+  {
+    "number": 8,
+    "title": "Estimate uncertainty with paired resampling",
+    "symbols": "paired_bootstrap",
+    "chapter": "course/chapters/08_paired-bootstrap.md",
+    "tests": [
+      "grader/test_stages.py::test_08"
+    ],
+    "hints": [
+      "Keep each example\u2019s two model scores paired.",
+      "Resample indices, then apply them to score differences.",
+      "Identical models produce exactly zero in every resample."
+    ]
+  },
+  {
+    "number": 9,
+    "title": "Align comparisons by identity",
+    "symbols": "compare_by_id",
+    "chapter": "course/chapters/09_compare-by-id.md",
+    "tests": [
+      "grader/test_stages.py::test_09"
+    ],
+    "hints": [
+      "Treat IDs as join keys, not presentation order.",
+      "Validate complete matching sets before sorting.",
+      "Sorting determines a stable index order for the seeded bootstrap."
+    ]
+  },
+  {
+    "number": 10,
+    "title": "Inspect performance slices",
+    "symbols": "slice_metrics",
+    "chapter": "course/chapters/10_slice-metrics.md",
+    "tests": [
+      "grader/test_stages.py::test_10"
+    ],
+    "hints": [
+      "Ask whether examples or groups receive equal weight.",
+      "Keep counts beside every group score.",
+      "The worst group can be invisible in a dominant-group micro average."
+    ]
+  },
+  {
+    "number": 11,
+    "title": "Measure calibration",
+    "symbols": "calibration_error",
+    "chapter": "course/chapters/11_calibration-error.md",
+    "tests": [
+      "grader/test_stages.py::test_11"
+    ],
+    "hints": [
+      "Group observations by confidence before measuring gaps.",
+      "Weight each bin by its number of observations.",
+      "Confidence one belongs to the final bin, not an out-of-range index."
+    ]
+  },
+  {
+    "number": 12,
+    "title": "Measure user-visible generation latency",
+    "symbols": "latency_metrics",
+    "chapter": "course/chapters/12_latency-metrics.md",
+    "tests": [
+      "grader/test_stages.py::test_12"
+    ],
+    "hints": [
+      "Separate the first token from continuation tokens.",
+      "Decode elapsed time starts at the first token timestamp.",
+      "One token has no decode interval and therefore no decode throughput estimate."
+    ]
+  },
+  {
+    "number": 13,
+    "title": "Run an auditable evaluation",
+    "symbols": "evaluate",
+    "chapter": "course/chapters/13_evaluate.md",
+    "tests": [
+      "grader/test_stages.py::test_13"
+    ],
+    "hints": [
+      "Expose only prompts to the prediction callback.",
+      "Preserve identities and every case in the denominator.",
+      "Propagate prediction failures rather than dropping difficult examples."
+    ]
+  },
+  {
+    "number": 14,
+    "title": "Publish a finite immutable report",
+    "symbols": "write_report",
+    "chapter": "course/chapters/14_write-report.md",
+    "tests": [
+      "grader/test_stages.py::test_14"
+    ],
+    "hints": [
+      "Validate JSON serialization before opening the destination.",
+      "Reject nonfinite values and preserve Unicode.",
+      "Hash the exact canonical bytes including their trailing newline."
+    ]
+  }
+]

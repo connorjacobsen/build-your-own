@@ -1,0 +1,57 @@
+{
+  "repository": "https://github.com/vllm-project/vllm",
+  "tag": "v0.11.0",
+  "revision": "b8b302cde434df8c9289a2b465406b47ebab1c2d",
+  "files": {
+    "vllm/v1/request.py": {
+      "sha256": "be457706757fe6734c5a1bd9f3261722276ec27616dac996d6b1c33cacdfa5ec",
+      "bytes": 9124,
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm/b8b302cde434df8c9289a2b465406b47ebab1c2d/vllm/v1/request.py"
+    },
+    "vllm/v1/core/sched/scheduler.py": {
+      "sha256": "357ac414a5b5da8c3423984dd1fdde860584a0d417c30ac2ee25874ea9e5a04c",
+      "bytes": 60858,
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm/b8b302cde434df8c9289a2b465406b47ebab1c2d/vllm/v1/core/sched/scheduler.py"
+    },
+    "vllm/v1/core/kv_cache_manager.py": {
+      "sha256": "f02d1d095365b83c5fcb9eff14ac887f35234495b8718f24718a218244dd5590",
+      "bytes": 16528,
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm/b8b302cde434df8c9289a2b465406b47ebab1c2d/vllm/v1/core/kv_cache_manager.py"
+    },
+    "vllm/v1/core/block_pool.py": {
+      "sha256": "8cd4b2fe35a26dcf8aa7d8e8ec16922b7cd3e67e02c800026902dad9b1274368",
+      "bytes": 16418,
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm/b8b302cde434df8c9289a2b465406b47ebab1c2d/vllm/v1/core/block_pool.py"
+    },
+    "vllm/v1/engine/core.py": {
+      "sha256": "4573563d926cafe0f1e11ebb25e862ce3bc722af9a24425dec791b9d43cfbedd",
+      "bytes": 53666,
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm/b8b302cde434df8c9289a2b465406b47ebab1c2d/vllm/v1/engine/core.py"
+    },
+    "vllm/v1/worker/gpu_model_runner.py": {
+      "sha256": "ea6b7bfe4082349e80042df4801c7ef9e18c80d1c3879eeb6ac6e9c476303574",
+      "bytes": 195684,
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm/b8b302cde434df8c9289a2b465406b47ebab1c2d/vllm/v1/worker/gpu_model_runner.py"
+    },
+    "vllm/v1/sample/sampler.py": {
+      "sha256": "3720fbfd59c1f064a62b8e0489ec0436468188b69f8b8eb84d2d62eba31f3912",
+      "bytes": 11400,
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm/b8b302cde434df8c9289a2b465406b47ebab1c2d/vllm/v1/sample/sampler.py"
+    },
+    "vllm/model_executor/models/llama.py": {
+      "sha256": "135cc5e748672057e1528b7f21c7a767c56d2ea4438b73ad60e3cfa3743d8613",
+      "bytes": 27276,
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm/b8b302cde434df8c9289a2b465406b47ebab1c2d/vllm/model_executor/models/llama.py"
+    },
+    "docs/design/prefix_caching.md": {
+      "sha256": "0a8a9e9095055c4f8e0cdaf078e3194ab06428222d65abb9c827f6879607ce61",
+      "bytes": 13205,
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm/b8b302cde434df8c9289a2b465406b47ebab1c2d/docs/design/prefix_caching.md"
+    },
+    "docs/design/arch_overview.md": {
+      "sha256": "8f75acf566551a276c9546b61fe9461d79824632e62f8d05609ba7f840b67a43",
+      "bytes": 10967,
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm/b8b302cde434df8c9289a2b465406b47ebab1c2d/docs/design/arch_overview.md"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+Stage 2: Round trips and invalid bytes — cumulative gate
+..F
+=================================== FAILURES ===================================
+______________________ test_empty_prompt_and_invalid_utf8 ______________________
+grader/stages/test_01_tokenizer.py:20: in test_empty_prompt_and_invalid_utf8
+    assert t.decode([255]) == "�", "Invalid byte sequences use replacement decoding"
+           ^^^^^^^^^^^^^^^
+src/toyvllm/tokenizer.py:30: in decode
+    return bytes(ids[start_idx : end_idx + 1]).decode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+- generated xml file: /Users/connor/Code/ai/courses/06-inference/.course/runs/20260928T191525651015Z.xml -
+=========================== short test summary info ============================
+FAILED grader/stages/test_01_tokenizer.py::test_empty_prompt_and_invalid_utf8
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 2 passed in 0.01s
+No cumulative completion claim. Read the stage contract or request a conceptual hint.

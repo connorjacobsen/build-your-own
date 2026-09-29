@@ -1,0 +1,198 @@
+[
+  {
+    "number": 1,
+    "title": "Make metadata byte-stable",
+    "symbols": "canonical_json",
+    "chapter": "course/chapters/01_canonical-json.md",
+    "tests": [
+      "grader/test_stages.py::test_01"
+    ],
+    "hints": [
+      "Byte identity requires a serialization policy.",
+      "Sort keys and choose separators before hashing.",
+      "Reject nonfinite numbers and include the terminal newline."
+    ]
+  },
+  {
+    "number": 2,
+    "title": "Hash large artifacts incrementally",
+    "symbols": "file_digest",
+    "chapter": "course/chapters/02_file-digest.md",
+    "tests": [
+      "grader/test_stages.py::test_02"
+    ],
+    "hints": [
+      "The digest should not depend on read chunk boundaries.",
+      "Update one hash state across bounded reads.",
+      "An empty file still has a well-defined digest."
+    ]
+  },
+  {
+    "number": 3,
+    "title": "Bound artifact paths",
+    "symbols": "safe_artifact_path",
+    "chapter": "course/chapters/03_safe-artifact-path.md",
+    "tests": [
+      "grader/test_stages.py::test_03"
+    ],
+    "hints": [
+      "Check resolved containment rather than string prefixes.",
+      "Reject parent traversal before resolving symlinks.",
+      "The resolved target must be a regular file under the resolved root."
+    ]
+  },
+  {
+    "number": 4,
+    "title": "Describe an explicit bundle",
+    "symbols": "build_manifest",
+    "chapter": "course/chapters/04_build-manifest.md",
+    "tests": [
+      "grader/test_stages.py::test_04"
+    ],
+    "hints": [
+      "Select the bundle boundary explicitly.",
+      "Sort paths and record both size and digest.",
+      "Copy metadata so caller mutations cannot rewrite the manifest."
+    ]
+  },
+  {
+    "number": 5,
+    "title": "Verify integrity before use",
+    "symbols": "verify_manifest",
+    "chapter": "course/chapters/05_verify-manifest.md",
+    "tests": [
+      "grader/test_stages.py::test_05"
+    ],
+    "hints": [
+      "Byte size is necessary but not sufficient.",
+      "Validate every listed object\u2019s digest as well as its path.",
+      "Equal-length corruption must fail."
+    ]
+  },
+  {
+    "number": 6,
+    "title": "Register immutable content",
+    "symbols": "register_artifact",
+    "chapter": "course/chapters/06_register-artifact.md",
+    "tests": [
+      "grader/test_stages.py::test_06"
+    ],
+    "hints": [
+      "A content-addressed object must match its own name.",
+      "Copy to a temporary file and verify before publication.",
+      "An already present but corrupted object is an error, not a cache hit."
+    ]
+  },
+  {
+    "number": 7,
+    "title": "Validate evaluation evidence",
+    "symbols": "validate_evaluation",
+    "chapter": "course/chapters/07_validate-evaluation.md",
+    "tests": [
+      "grader/test_stages.py::test_07"
+    ],
+    "hints": [
+      "Bind the report to both model and dataset.",
+      "Recompute its aggregate from unique per-case scores.",
+      "A correct digest does not excuse an inconsistent accuracy or count."
+    ]
+  },
+  {
+    "number": 8,
+    "title": "Encode a release policy",
+    "symbols": "release_gate",
+    "chapter": "course/chapters/08_release-gate.md",
+    "tests": [
+      "grader/test_stages.py::test_08"
+    ],
+    "hints": [
+      "Separate comparability checks from policy failures.",
+      "Apply evidence size, quality floor and regression limits in declared order.",
+      "An exactly satisfied threshold passes."
+    ]
+  },
+  {
+    "number": 9,
+    "title": "Route a stable canary cohort",
+    "symbols": "route_request",
+    "chapter": "course/chapters/09_route-request.md",
+    "tests": [
+      "grader/test_stages.py::test_09"
+    ],
+    "hints": [
+      "Assignment must survive retries and process restarts.",
+      "Convert a stable salted digest into a unit interval bucket.",
+      "The same salt makes larger fractions extend the existing cohort."
+    ]
+  },
+  {
+    "number": 10,
+    "title": "Summarize serving observations",
+    "symbols": "summarize_requests",
+    "chapter": "course/chapters/10_summarize-requests.md",
+    "tests": [
+      "grader/test_stages.py::test_10"
+    ],
+    "hints": [
+      "Keep failed requests in operational accounting.",
+      "Sort latencies before applying the stated percentile rule.",
+      "The nearest-rank index is based on all observations."
+    ]
+  },
+  {
+    "number": 11,
+    "title": "Decide when to roll back",
+    "symbols": "rollback_decision",
+    "chapter": "course/chapters/11_rollback-decision.md",
+    "tests": [
+      "grader/test_stages.py::test_11"
+    ],
+    "hints": [
+      "Decide whether there is enough evidence before applying thresholds.",
+      "Either excessive errors or excessive latency can trigger rollback.",
+      "Threshold equality is a keep decision after the minimum count."
+    ]
+  },
+  {
+    "number": 12,
+    "title": "Promote with compare-and-swap",
+    "symbols": "promote",
+    "chapter": "course/chapters/12_promote.md",
+    "tests": [
+      "grader/test_stages.py::test_12"
+    ],
+    "hints": [
+      "Atomic visibility and concurrent decision safety are different.",
+      "Lock, reread, compare the expected version, then replace.",
+      "An idempotent promotion must not erase the earlier previous pointer."
+    ]
+  },
+  {
+    "number": 13,
+    "title": "Restore the previous release",
+    "symbols": "rollback",
+    "chapter": "course/chapters/13_rollback.md",
+    "tests": [
+      "grader/test_stages.py::test_13"
+    ],
+    "hints": [
+      "Rollback is another version-checked promotion.",
+      "Read the prior digest but preserve the expected-current check.",
+      "A concurrent change must reject the stale rollback."
+    ]
+  },
+  {
+    "number": 14,
+    "title": "Release from verified evidence",
+    "symbols": "release_model",
+    "chapter": "course/chapters/14_release-model.md",
+    "tests": [
+      "grader/test_stages.py::test_14"
+    ],
+    "hints": [
+      "Bind evidence to actual model bytes before changing active state.",
+      "Run validation and the quality policy before registering artifacts.",
+      "Promotion still needs compare-and-swap even after every quality check passed."
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.reference/
+artifacts/*
+!artifacts/.gitkeep
+.DS_Store
+.course/

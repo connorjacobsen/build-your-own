@@ -1,0 +1,58 @@
+[
+  {
+    "course": "01-autograd",
+    "stages": 14,
+    "first_incomplete_gate": 1,
+    "preserved_prior_gates": 0,
+    "receipt_complete": false
+  },
+  {
+    "course": "02-pretraining",
+    "stages": 16,
+    "first_incomplete_gate": 1,
+    "preserved_prior_gates": 0,
+    "receipt_complete": false
+  },
+  {
+    "course": "03-data",
+    "stages": 13,
+    "first_incomplete_gate": 1,
+    "preserved_prior_gates": 0,
+    "receipt_complete": false
+  },
+  {
+    "course": "04-finetuning",
+    "stages": 14,
+    "first_incomplete_gate": 1,
+    "preserved_prior_gates": 0,
+    "receipt_complete": false
+  },
+  {
+    "course": "05-evaluation",
+    "stages": 14,
+    "first_incomplete_gate": 1,
+    "preserved_prior_gates": 0,
+    "receipt_complete": false
+  },
+  {
+    "course": "06-inference",
+    "stages": 32,
+    "first_incomplete_gate": 2,
+    "preserved_prior_gates": 1,
+    "receipt_complete": false
+  },
+  {
+    "course": "07-distributed",
+    "stages": 14,
+    "first_incomplete_gate": 1,
+    "preserved_prior_gates": 0,
+    "receipt_complete": false
+  },
+  {
+    "course": "08-releases",
+    "stages": 14,
+    "first_incomplete_gate": 1,
+    "preserved_prior_gates": 0,
+    "receipt_complete": false
+  }
+]

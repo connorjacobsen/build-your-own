@@ -1,0 +1,491 @@
+[
+  {
+    "number": 1,
+    "title": "UTF-8 and special tokens",
+    "symbols": "tokenizer.py",
+    "chapter": "course/chapters/01_stage.md",
+    "textbook": "course/textbook/01_tokenizer.md",
+    "tests": [
+      "grader/stages/test_01_tokenizer.py::test_utf8_bytes_and_special_ids"
+    ],
+    "hints": [
+      "A token is a UTF-8 byte here, not a Unicode code point. Check what Python's text.encode returns.",
+      "BOS belongs outside the byte vocabulary. Separate special IDs before reconstructing a byte string.",
+      "State the round-trip domain: valid text must survive encode/decode, while arbitrary byte sequences can require replacement characters."
+    ]
+  },
+  {
+    "number": 2,
+    "title": "Round trips and invalid bytes",
+    "symbols": "tokenizer.py",
+    "chapter": "course/chapters/02_stage.md",
+    "textbook": "course/textbook/01_tokenizer.md",
+    "tests": [
+      "grader/stages/test_01_tokenizer.py::test_empty_prompt_and_invalid_utf8",
+      "grader/stages/test_01_tokenizer.py::test_unicode_roundtrip_and_no_input_mutation"
+    ],
+    "hints": [
+      "A token is a UTF-8 byte here, not a Unicode code point. Check what Python's text.encode returns.",
+      "BOS belongs outside the byte vocabulary. Separate special IDs before reconstructing a byte string.",
+      "State the round-trip domain: valid text must survive encode/decode, while arbitrary byte sequences can require replacement characters."
+    ]
+  },
+  {
+    "number": 3,
+    "title": "RMS normalization",
+    "symbols": "model.py: RMSNorm",
+    "chapter": "course/chapters/03_stage.md",
+    "textbook": "course/textbook/02_model.md",
+    "tests": [
+      "grader/stages/test_02_model.py::test_rmsnorm_learned_weight_and_zero"
+    ],
+    "hints": [
+      "Write shapes beside each operation. Distinguish query-head count from stored KV-head count.",
+      "Test position zero and norm preservation for RoPE. For attention, determine the absolute position of each local query row.",
+      "Build one layer first: pre-normalized attention residual, then pre-normalized gated feed-forward residual. Keep the checkpoint/module names from the contract."
+    ]
+  },
+  {
+    "number": 4,
+    "title": "Rotary positions",
+    "symbols": "model.py: rope",
+    "chapter": "course/chapters/04_stage.md",
+    "textbook": "course/textbook/02_model.md",
+    "tests": [
+      "grader/stages/test_02_model.py::test_rope_absolute_positions"
+    ],
+    "hints": [
+      "Write shapes beside each operation. Distinguish query-head count from stored KV-head count.",
+      "Test position zero and norm preservation for RoPE. For attention, determine the absolute position of each local query row.",
+      "Build one layer first: pre-normalized attention residual, then pre-normalized gated feed-forward residual. Keep the checkpoint/module names from the contract."
+    ]
+  },
+  {
+    "number": 5,
+    "title": "Causal grouped-query attention",
+    "symbols": "model.py: attention",
+    "chapter": "course/chapters/05_stage.md",
+    "textbook": "course/textbook/02_model.md",
+    "tests": [
+      "grader/stages/test_02_model.py::test_attention_offset_gqa_and_future_mask"
+    ],
+    "hints": [
+      "Write shapes beside each operation. Distinguish query-head count from stored KV-head count.",
+      "Test position zero and norm preservation for RoPE. For attention, determine the absolute position of each local query row.",
+      "Build one layer first: pre-normalized attention residual, then pre-normalized gated feed-forward residual. Keep the checkpoint/module names from the contract."
+    ]
+  },
+  {
+    "number": 6,
+    "title": "Assemble the decoder",
+    "symbols": "model.py: TinyLM",
+    "chapter": "course/chapters/06_stage.md",
+    "textbook": "course/textbook/02_model.md",
+    "tests": [
+      "grader/stages/test_02_model.py::test_dense_model_matches_fixed_checkpoint"
+    ],
+    "hints": [
+      "Write shapes beside each operation. Distinguish query-head count from stored KV-head count.",
+      "Test position zero and norm preservation for RoPE. For attention, determine the absolute position of each local query row.",
+      "Build one layer first: pre-normalized attention residual, then pre-normalized gated feed-forward residual. Keep the checkpoint/module names from the contract."
+    ]
+  },
+  {
+    "number": 7,
+    "title": "Prove causality and gradient flow",
+    "symbols": "model.py: TinyLM.forward",
+    "chapter": "course/chapters/07_stage.md",
+    "textbook": "course/textbook/02_model.md",
+    "tests": [
+      "grader/stages/test_02_model.py::test_causality_and_varied_sequences",
+      "grader/stages/test_02_model.py::test_dense_gradients_reach_the_parameters"
+    ],
+    "hints": [
+      "Write shapes beside each operation. Distinguish query-head count from stored KV-head count.",
+      "Test position zero and norm preservation for RoPE. For attention, determine the absolute position of each local query row.",
+      "Build one layer first: pre-normalized attention residual, then pre-normalized gated feed-forward residual. Keep the checkpoint/module names from the contract."
+    ]
+  },
+  {
+    "number": 8,
+    "title": "Greedy generation and EOS",
+    "symbols": "sampling.py: generate_naive",
+    "chapter": "course/chapters/08_stage.md",
+    "textbook": "course/textbook/03_generation.md",
+    "tests": [
+      "grader/stages/test_03_generation.py::test_greedy_and_length_zero",
+      "grader/stages/test_03_generation.py::test_eos_is_included_and_stops"
+    ],
+    "hints": [
+      "The final input logit row predicts the first output; sampling does not require an extra forward call.",
+      "For top-p, keep the token that first brings the cumulative probability to or above the threshold.",
+      "A generator is request state. Initialize it once, advance it only on emissions, and copy caller-owned token lists before appending."
+    ]
+  },
+  {
+    "number": 9,
+    "title": "Nucleus sampling",
+    "symbols": "sampling.py: sample",
+    "chapter": "course/chapters/09_stage.md",
+    "textbook": "course/textbook/03_generation.md",
+    "tests": [
+      "grader/stages/test_03_generation.py::test_nucleus_crossing_token_and_logit_immutability"
+    ],
+    "hints": [
+      "The final input logit row predicts the first output; sampling does not require an extra forward call.",
+      "For top-p, keep the token that first brings the cumulative probability to or above the threshold.",
+      "A generator is request state. Initialize it once, advance it only on emissions, and copy caller-owned token lists before appending."
+    ]
+  },
+  {
+    "number": 10,
+    "title": "Own each request random stream",
+    "symbols": "sampling.py: generate_naive",
+    "chapter": "course/chapters/10_stage.md",
+    "textbook": "course/textbook/03_generation.md",
+    "tests": [
+      "grader/stages/test_03_generation.py::test_temperature_filters_and_request_rng"
+    ],
+    "hints": [
+      "The final input logit row predicts the first output; sampling does not require an extra forward call.",
+      "For top-p, keep the token that first brings the cumulative probability to or above the threshold.",
+      "A generator is request state. Initialize it once, advance it only on emissions, and copy caller-owned token lists before appending."
+    ]
+  },
+  {
+    "number": 11,
+    "title": "Append a contiguous KV cache",
+    "symbols": "model.py: TinyLM.forward",
+    "chapter": "course/chapters/11_stage.md",
+    "textbook": "course/textbook/04_kv_cache.md",
+    "tests": [
+      "grader/stages/test_04_kv_cache.py::test_cached_chunks_match_dense_without_mutation",
+      "grader/stages/test_04_kv_cache.py::test_cached_values_are_actually_consumed"
+    ],
+    "hints": [
+      "What can a later causal token change about earlier hidden states? Use that to decide which projected tensors can persist.",
+      "The cache length is the first new absolute position. Multiple new rows still need an offset causal mask.",
+      "Compare call sizes and projection sizes separately. A correct output with repeated old projections is still missing the optimization."
+    ]
+  },
+  {
+    "number": 12,
+    "title": "Generate with real cache reuse",
+    "symbols": "sampling.py: generate_cached",
+    "chapter": "course/chapters/12_stage.md",
+    "textbook": "course/textbook/04_kv_cache.md",
+    "tests": [
+      "grader/stages/test_04_kv_cache.py::test_cache_reuses_work_not_just_outputs",
+      "grader/stages/test_04_kv_cache.py::test_cached_sampling_matches_seeded_baseline"
+    ],
+    "hints": [
+      "What can a later causal token change about earlier hidden states? Use that to decide which projected tensors can persist.",
+      "The cache length is the first new absolute position. Multiple new rows still need an offset causal mask.",
+      "Compare call sizes and projection sizes separately. A correct output with repeated old projections is still missing the optimization."
+    ]
+  },
+  {
+    "number": 13,
+    "title": "Batch isolated contexts",
+    "symbols": "model.py: forward_batch",
+    "chapter": "course/chapters/13_stage.md",
+    "textbook": "course/textbook/05_batching.md",
+    "tests": [
+      "grader/stages/test_05_batching.py::test_unequal_sequences_are_independent",
+      "grader/stages/test_05_batching.py::test_mixed_cached_lengths_and_empty_batch"
+    ],
+    "hints": [
+      "Linear layers act independently on rows; attention does not. Decide which operations can share the packed tensor.",
+      "Keep cumulative row boundaries and cached lengths separate. Packed row zero need not mean model position zero.",
+      "Write a two-request trace with unequal cache lengths. Reassemble attended outputs in precisely the original packed order."
+    ]
+  },
+  {
+    "number": 14,
+    "title": "Pack the linear work",
+    "symbols": "model.py: forward_batch",
+    "chapter": "course/chapters/14_stage.md",
+    "textbook": "course/textbook/05_batching.md",
+    "tests": [
+      "grader/stages/test_05_batching.py::test_projections_are_packed_not_sequential_calls"
+    ],
+    "hints": [
+      "Linear layers act independently on rows; attention does not. Decide which operations can share the packed tensor.",
+      "Keep cumulative row boundaries and cached lengths separate. Packed row zero need not mean model position zero.",
+      "Write a two-request trace with unequal cache lengths. Reassemble attended outputs in precisely the original packed order."
+    ]
+  },
+  {
+    "number": 15,
+    "title": "Allocate pages atomically",
+    "symbols": "cache.py: BlockPool",
+    "chapter": "course/chapters/15_stage.md",
+    "textbook": "course/textbook/06_paging.md",
+    "tests": [
+      "grader/stages/test_06_paging.py::test_atomic_allocation_and_refcounts"
+    ],
+    "hints": [
+      "Logical position, packed row, and physical address are different coordinates. Derive each independently.",
+      "Allocation must either return every requested block or leave free capacity unchanged. A reference count describes owners, not token length.",
+      "Use a nonmonotonic table and edit a physical value after prefill. If continuation ignores the edit, some path is bypassing paged storage."
+    ]
+  },
+  {
+    "number": 16,
+    "title": "Map logical slots to physical storage",
+    "symbols": "cache.py: BlockPool",
+    "chapter": "course/chapters/16_stage.md",
+    "textbook": "course/textbook/06_paging.md",
+    "tests": [
+      "grader/stages/test_06_paging.py::test_slot_mapping_storage_and_shared_write_guard"
+    ],
+    "hints": [
+      "Logical position, packed row, and physical address are different coordinates. Derive each independently.",
+      "Allocation must either return every requested block or leave free capacity unchanged. A reference count describes owners, not token length.",
+      "Use a nonmonotonic table and edit a physical value after prefill. If continuation ignores the edit, some path is bypassing paged storage."
+    ]
+  },
+  {
+    "number": 17,
+    "title": "Execute from real paged KV",
+    "symbols": "model.py: forward_paged_batch",
+    "chapter": "course/chapters/17_stage.md",
+    "textbook": "course/textbook/06_paging.md",
+    "tests": [
+      "grader/stages/test_06_paging.py::test_real_paged_execution_with_shuffled_blocks",
+      "grader/stages/test_06_paging.py::test_physical_pages_are_the_source_of_truth",
+      "grader/stages/test_06_paging.py::test_paged_projection_work_only_new_rows"
+    ],
+    "hints": [
+      "Logical position, packed row, and physical address are different coordinates. Derive each independently.",
+      "Allocation must either return every requested block or leave free capacity unchanged. A reference count describes owners, not token length.",
+      "Use a nonmonotonic table and edit a physical value after prefill. If continuation ignores the edit, some path is bypassing paged storage."
+    ]
+  },
+  {
+    "number": 18,
+    "title": "Schedule partial prefills",
+    "symbols": "engine.py: Engine",
+    "chapter": "course/chapters/18_stage.md",
+    "textbook": "course/textbook/07_scheduler.md",
+    "tests": [
+      "grader/stages/test_07_scheduler.py::test_partial_prefill_and_measured_token_budget"
+    ],
+    "hints": [
+      "Available token IDs and computed positions are not the same number. Their difference is executable work.",
+      "A partial prompt advances the computed frontier without emitting an ID. After emission there is one new uncomputed ID.",
+      "Prove progress with reservation first. Every terminal transition must remove queue membership and release request ownership once."
+    ]
+  },
+  {
+    "number": 19,
+    "title": "Handle terminal request states",
+    "symbols": "engine.py: Engine",
+    "chapter": "course/chapters/19_stage.md",
+    "textbook": "course/textbook/07_scheduler.md",
+    "tests": [
+      "grader/stages/test_07_scheduler.py::test_zero_eos_cancellation_and_ids"
+    ],
+    "hints": [
+      "Available token IDs and computed positions are not the same number. Their difference is executable work.",
+      "A partial prompt advances the computed frontier without emitting an ID. After emission there is one new uncomputed ID.",
+      "Prove progress with reservation first. Every terminal transition must remove queue membership and release request ownership once."
+    ]
+  },
+  {
+    "number": 20,
+    "title": "Preserve stochastic request semantics",
+    "symbols": "engine.py: Engine",
+    "chapter": "course/chapters/20_stage.md",
+    "textbook": "course/textbook/07_scheduler.md",
+    "tests": [
+      "grader/stages/test_07_scheduler.py::test_scheduling_preserves_per_request_random_stream"
+    ],
+    "hints": [
+      "Available token IDs and computed positions are not the same number. Their difference is executable work.",
+      "A partial prompt advances the computed frontier without emitting an ID. After emission there is one new uncomputed ID.",
+      "Prove progress with reservation first. Every terminal transition must remove queue membership and release request ownership once."
+    ]
+  },
+  {
+    "number": 21,
+    "title": "Make progress under capacity pressure",
+    "symbols": "engine.py: Engine",
+    "chapter": "course/chapters/21_stage.md",
+    "textbook": "course/textbook/07_scheduler.md",
+    "tests": [
+      "grader/stages/test_07_scheduler.py::test_impossible_requests_rejected_and_pressure_makes_progress",
+      "grader/stages/test_07_scheduler.py::test_randomized_arrivals_cancel_and_progress"
+    ],
+    "hints": [
+      "Available token IDs and computed positions are not the same number. Their difference is executable work.",
+      "A partial prompt advances the computed frontier without emitting an ID. After emission there is one new uncomputed ID.",
+      "Prove progress with reservation first. Every terminal transition must remove queue membership and release request ownership once."
+    ]
+  },
+  {
+    "number": 22,
+    "title": "Emit truthful token events",
+    "symbols": "engine.py: Engine.step",
+    "chapter": "course/chapters/22_stage.md",
+    "textbook": "course/textbook/07_scheduler.md",
+    "tests": [
+      "grader/stages/test_07_scheduler.py::test_step_events_correspond_to_actual_new_outputs"
+    ],
+    "hints": [
+      "Available token IDs and computed positions are not the same number. Their difference is executable work.",
+      "A partial prompt advances the computed frontier without emitting an ID. After emission there is one new uncomputed ID.",
+      "Prove progress with reservation first. Every terminal transition must remove queue membership and release request ownership once."
+    ]
+  },
+  {
+    "number": 23,
+    "title": "Retain and evict full prefixes",
+    "symbols": "cache.py: PrefixCache",
+    "chapter": "course/chapters/23_stage.md",
+    "textbook": "course/textbook/08_prefix.md",
+    "tests": [
+      "grader/stages/test_08_prefix.py::test_full_prefix_identity_last_logit_and_active_eviction",
+      "grader/stages/test_08_prefix.py::test_only_computed_full_blocks_publish_and_clear_preserves_owners"
+    ],
+    "hints": [
+      "A block's representation depends on earlier context. Equal local token IDs are not a sufficient cache key.",
+      "KV entries do not contain final logits. Work through prompt lengths B and B+1 before choosing the maximum reusable prefix.",
+      "Label each owner: cache retention or active request. Acquire ownership before eviction, and allocate a private COW block before changing the old mapping."
+    ]
+  },
+  {
+    "number": 24,
+    "title": "Copy a shared tail before writing",
+    "symbols": "cache.py: BlockPool.copy_on_write",
+    "chapter": "course/chapters/24_stage.md",
+    "textbook": "course/textbook/08_prefix.md",
+    "tests": [
+      "grader/stages/test_08_prefix.py::test_copy_on_write_and_failure_atomicity"
+    ],
+    "hints": [
+      "A block's representation depends on earlier context. Equal local token IDs are not a sufficient cache key.",
+      "KV entries do not contain final logits. Work through prompt lengths B and B+1 before choosing the maximum reusable prefix.",
+      "Label each owner: cache retention or active request. Acquire ownership before eviction, and allocate a private COW block before changing the old mapping."
+    ]
+  },
+  {
+    "number": 25,
+    "title": "Reuse prefixes in the engine",
+    "symbols": "engine.py: Engine",
+    "chapter": "course/chapters/25_stage.md",
+    "textbook": "course/textbook/08_prefix.md",
+    "tests": [
+      "grader/stages/test_08_prefix.py::test_prefix_reuse_skips_real_projection_work",
+      "grader/stages/test_08_prefix.py::test_prefix_pressure_recycles_capacity"
+    ],
+    "hints": [
+      "A block's representation depends on earlier context. Equal local token IDs are not a sufficient cache key.",
+      "KV entries do not contain final logits. Work through prompt lengths B and B+1 before choosing the maximum reusable prefix.",
+      "Label each owner: cache retention or active request. Acquire ownership before eviction, and allocate a private COW block before changing the old mapping."
+    ]
+  },
+  {
+    "number": 26,
+    "title": "Expose a shared HTTP engine",
+    "symbols": "server.py: create_app",
+    "chapter": "course/chapters/26_stage.md",
+    "textbook": "course/textbook/09_serving.md",
+    "tests": [
+      "grader/stages/test_09_serving.py::test_http_contract_validation_and_shared_engine"
+    ],
+    "hints": [
+      "A route should submit work to the one shared engine and await its own result, not run a private generation loop.",
+      "Give one execution loop ownership of engine mutation and yield between steps so new requests can arrive.",
+      "Cancellation interrupts an await. Put ownership and pending-slot cleanup on a path that also runs when no normal response is produced."
+    ]
+  },
+  {
+    "number": 27,
+    "title": "Serve concurrent callers",
+    "symbols": "server.py: create_app",
+    "chapter": "course/chapters/27_stage.md",
+    "textbook": "course/textbook/09_serving.md",
+    "tests": [
+      "grader/stages/test_09_serving.py::test_concurrent_clients_use_one_engine"
+    ],
+    "hints": [
+      "A route should submit work to the one shared engine and await its own result, not run a private generation loop.",
+      "Give one execution loop ownership of engine mutation and yield between steps so new requests can arrive.",
+      "Cancellation interrupts an await. Put ownership and pending-slot cleanup on a path that also runs when no normal response is produced."
+    ]
+  },
+  {
+    "number": 28,
+    "title": "Bound pending work and cancellation",
+    "symbols": "server.py: create_app",
+    "chapter": "course/chapters/28_stage.md",
+    "textbook": "course/textbook/09_serving.md",
+    "tests": [
+      "grader/stages/test_09_serving.py::test_backpressure_and_cancelled_caller_release_resources"
+    ],
+    "hints": [
+      "A route should submit work to the one shared engine and await its own result, not run a private generation loop.",
+      "Give one execution loop ownership of engine mutation and yield between steps so new requests can arrive.",
+      "Cancellation interrupts an await. Put ownership and pending-slot cleanup on a path that also runs when no normal response is produced."
+    ]
+  },
+  {
+    "number": 29,
+    "title": "Measure completed device work",
+    "symbols": "metrics.py: benchmark",
+    "chapter": "course/chapters/29_stage.md",
+    "textbook": "course/textbook/10_acceleration.md",
+    "tests": [
+      "grader/stages/test_10_acceleration.py::test_benchmark_warmup_sample_count_and_validation",
+      "grader/stages/test_10_acceleration.py::test_device_timing_brackets_work_with_synchronization"
+    ],
+    "hints": [
+      "A CPU-created mask or position tensor can be the only reason an otherwise valid forward fails on CUDA.",
+      "GPU launches can be asynchronous. The end timestamp must observe completed device work, not merely queued kernels.",
+      "Separate a numerical gate from a performance claim. Compare identical outputs, explicit warmup, repeated samples, and the same allocation boundary."
+    ]
+  },
+  {
+    "number": 30,
+    "title": "Load a trained portable artifact",
+    "symbols": "artifacts.py: load_export",
+    "chapter": "course/chapters/30_artifact.md",
+    "tests": [
+      "grader/stages/test_11_artifacts.py::test_portable_training_checkpoint"
+    ],
+    "hints": [
+      "Validate metadata before constructing a model.",
+      "Use strict state-dict loading.",
+      "Isolate initialization RNG even though trained weights replace the initial values."
+    ]
+  },
+  {
+    "number": 31,
+    "title": "Run causal attention on CUDA",
+    "symbols": "model.py, cache.py",
+    "chapter": "course/chapters/31_cuda.md",
+    "tests": [
+      "grader/stages/test_10_acceleration.py::test_cuda_attention_gqa_and_offset"
+    ],
+    "hints": [
+      "A CPU-created mask or position tensor can be the only reason an otherwise valid forward fails on CUDA.",
+      "GPU launches can be asynchronous. The end timestamp must observe completed device work, not merely queued kernels.",
+      "Separate a numerical gate from a performance claim. Compare identical outputs, explicit warmup, repeated samples, and the same allocation boundary."
+    ]
+  },
+  {
+    "number": 32,
+    "title": "Run the complete engine on CUDA",
+    "symbols": "model.py, cache.py",
+    "chapter": "course/chapters/32_cuda.md",
+    "tests": [
+      "grader/stages/test_10_acceleration.py::test_cuda_engine_matches_cpu_and_keeps_kv_on_device"
+    ],
+    "hints": [
+      "A CPU-created mask or position tensor can be the only reason an otherwise valid forward fails on CUDA.",
+      "GPU launches can be asynchronous. The end timestamp must observe completed device work, not merely queued kernels.",
+      "Separate a numerical gate from a performance claim. Compare identical outputs, explicit warmup, repeated samples, and the same allocation boundary."
+    ]
+  }
+]

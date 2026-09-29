@@ -1,0 +1,35 @@
+{
+  "mode": "instructor reference",
+  "training_documents": 22,
+  "heldout_cases": 2,
+  "pretraining_loss": [
+    5.736253261566162,
+    5.448906898498535,
+    5.16525936126709,
+    4.87861967086792,
+    4.58815860748291,
+    4.300909519195557,
+    4.0248308181762695,
+    3.761678457260132
+  ],
+  "sft_loss": [
+    4.816599369049072,
+    4.786815643310547,
+    4.752072334289551
+  ],
+  "baseline_accuracy": 0.5,
+  "candidate_accuracy": 0.5,
+  "release": {
+    "model_sha256": "f629048da20a04606d79564e51ffde15388a0f7b3c214b7cb5f755075468afb5",
+    "report_sha256": "8758519a30e2a29a13396967ffeb430a9e7518b2124820cadd3180a6870d201c",
+    "pointer": {
+      "current": "f629048da20a04606d79564e51ffde15388a0f7b3c214b7cb5f755075468afb5",
+      "previous": "a9aa1c6aca4900a2738bd73f7e08014ce65c35649f929e78122a5196c44f24f8"
+    }
+  },
+  "rollback": {
+    "current": "a9aa1c6aca4900a2738bd73f7e08014ce65c35649f929e78122a5196c44f24f8",
+    "previous": "f629048da20a04606d79564e51ffde15388a0f7b3c214b7cb5f755075468afb5"
+  },
+  "quality_claim": false
+}

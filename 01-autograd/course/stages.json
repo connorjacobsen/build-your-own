@@ -1,0 +1,198 @@
+[
+  {
+    "number": 1,
+    "title": "Own your tensors",
+    "symbols": "Tensor",
+    "chapter": "course/chapters/01_tensor.md",
+    "tests": [
+      "grader/test_stages.py::test_01"
+    ],
+    "hints": [
+      "Separate values from derivatives.",
+      "A scalar is a zero-dimensional array, not a length-one vector.",
+      "Copy the data and allocate independent zero gradient storage."
+    ]
+  },
+  {
+    "number": 2,
+    "title": "Undo broadcasting",
+    "symbols": "unbroadcast",
+    "chapter": "course/chapters/02_unbroadcast.md",
+    "tests": [
+      "grader/test_stages.py::test_02"
+    ],
+    "hints": [
+      "Reverse replication with addition.",
+      "Handle extra leading axes first.",
+      "Retain singleton dimensions when reducing axes from the original shape."
+    ]
+  },
+  {
+    "number": 3,
+    "title": "Order a shared graph",
+    "symbols": "topological",
+    "chapter": "course/chapters/03_topological.md",
+    "tests": [
+      "grader/test_stages.py::test_03"
+    ],
+    "hints": [
+      "Track node identity.",
+      "Visit parents before appending their child.",
+      "Repeated edges do not mean repeated traversal."
+    ]
+  },
+  {
+    "number": 4,
+    "title": "Run reverse mode",
+    "symbols": "Tensor.backward",
+    "chapter": "course/chapters/04_tensor-backward.md",
+    "tests": [
+      "grader/test_stages.py::test_04"
+    ],
+    "hints": [
+      "Initialize gradients before callbacks run.",
+      "The output seed is itself a gradient.",
+      "Reverse the topological list exactly once."
+    ]
+  },
+  {
+    "number": 5,
+    "title": "Differentiate addition",
+    "symbols": "add",
+    "chapter": "course/chapters/05_add.md",
+    "tests": [
+      "grader/test_stages.py::test_05"
+    ],
+    "hints": [
+      "Use unbroadcast for each parent.",
+      "Callbacks add contributions.",
+      "Do not deduplicate operand contributions."
+    ]
+  },
+  {
+    "number": 6,
+    "title": "Differentiate multiplication",
+    "symbols": "multiply",
+    "chapter": "course/chapters/06_multiply.md",
+    "tests": [
+      "grader/test_stages.py::test_06"
+    ],
+    "hints": [
+      "Hold the other operand fixed.",
+      "Multiply by the upstream gradient first.",
+      "Reduce to the parent shape after multiplying."
+    ]
+  },
+  {
+    "number": 7,
+    "title": "Differentiate matrix products",
+    "symbols": "matmul",
+    "chapter": "course/chapters/07_matmul.md",
+    "tests": [
+      "grader/test_stages.py::test_07"
+    ],
+    "hints": [
+      "Write the index equation for the forward result.",
+      "Check that the inner dimension contracts.",
+      "The two gradients use the opposite operand transposed."
+    ]
+  },
+  {
+    "number": 8,
+    "title": "Differentiate reductions",
+    "symbols": "summation",
+    "chapter": "course/chapters/08_summation.md",
+    "tests": [
+      "grader/test_stages.py::test_08"
+    ],
+    "hints": [
+      "Remember which axis was reduced.",
+      "Restore the axis only when it was removed.",
+      "Broadcast the upstream values to the input shape."
+    ]
+  },
+  {
+    "number": 9,
+    "title": "Introduce a nonlinearity",
+    "symbols": "relu",
+    "chapter": "course/chapters/09_relu.md",
+    "tests": [
+      "grader/test_stages.py::test_09"
+    ],
+    "hints": [
+      "Save or recover the active mask.",
+      "The output and derivative use related but different values.",
+      "Zero belongs to the inactive side by contract."
+    ]
+  },
+  {
+    "number": 10,
+    "title": "Compose exponential and logarithm",
+    "symbols": "exp, log",
+    "chapter": "course/chapters/10_exp.md",
+    "tests": [
+      "grader/test_stages.py::test_10"
+    ],
+    "hints": [
+      "Use the output of exp in its local derivative.",
+      "The log derivative uses the input reciprocal.",
+      "Multiply every local derivative by the upstream gradient."
+    ]
+  },
+  {
+    "number": 11,
+    "title": "Construct a loss from operations",
+    "symbols": "mse",
+    "chapter": "course/chapters/11_mse.md",
+    "tests": [
+      "grader/test_stages.py::test_11"
+    ],
+    "hints": [
+      "Build subtraction from addition and multiplication.",
+      "Square a shared intermediate.",
+      "Normalize by the number of elements after broadcasting."
+    ]
+  },
+  {
+    "number": 12,
+    "title": "Stabilize cross-entropy",
+    "symbols": "cross_entropy",
+    "chapter": "course/chapters/12_cross-entropy.md",
+    "tests": [
+      "grader/test_stages.py::test_12"
+    ],
+    "hints": [
+      "Softmax ignores a common shift.",
+      "Compute the normalizer after subtracting the row maximum.",
+      "Each gradient row should sum approximately to zero."
+    ]
+  },
+  {
+    "number": 13,
+    "title": "Update shared parameters once",
+    "symbols": "sgd",
+    "chapter": "course/chapters/13_sgd.md",
+    "tests": [
+      "grader/test_stages.py::test_13"
+    ],
+    "hints": [
+      "Use object identity for optimizer membership.",
+      "Apply the gradient before clearing it.",
+      "A repeated parameter is one storage location."
+    ]
+  },
+  {
+    "number": 14,
+    "title": "Train a composed network",
+    "symbols": "train_mlp",
+    "chapter": "course/chapters/14_train-mlp.md",
+    "tests": [
+      "grader/test_stages.py::test_14"
+    ],
+    "hints": [
+      "Construct the forward expression from earlier operations.",
+      "Record the pre-update scalar loss.",
+      "Differentiate and update once per step."
+    ]
+  }
+]

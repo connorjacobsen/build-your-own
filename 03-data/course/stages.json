@@ -1,0 +1,184 @@
+[
+  {
+    "number": 1,
+    "title": "Separate matching text from training text",
+    "symbols": "normalize",
+    "chapter": "course/chapters/01_normalize.md",
+    "tests": [
+      "grader/test_stages.py::test_01"
+    ],
+    "hints": [
+      "Distinguish original content from its matching representation.",
+      "Unicode compatibility normalization precedes casefolding.",
+      "Whitespace collapse should be idempotent."
+    ]
+  },
+  {
+    "number": 2,
+    "title": "Give content a stable identity",
+    "symbols": "document_id",
+    "chapter": "course/chapters/02_document-id.md",
+    "tests": [
+      "grader/test_stages.py::test_02"
+    ],
+    "hints": [
+      "Choose a stable cross-process content identity.",
+      "Hash the normalized UTF-8 bytes.",
+      "Python hash is not a persistent content ID."
+    ]
+  },
+  {
+    "number": 3,
+    "title": "Make filtering explainable",
+    "symbols": "quality_filter",
+    "chapter": "course/chapters/03_quality-filter.md",
+    "tests": [
+      "grader/test_stages.py::test_03"
+    ],
+    "hints": [
+      "Count words and their most frequent occurrence.",
+      "The repetition denominator is total word count.",
+      "Both thresholds include equality; empty content still fails."
+    ]
+  },
+  {
+    "number": 4,
+    "title": "Remove exact duplicates stably",
+    "symbols": "deduplicate",
+    "chapter": "course/chapters/04_deduplicate.md",
+    "tests": [
+      "grader/test_stages.py::test_04"
+    ],
+    "hints": [
+      "Choose which duplicate record survives.",
+      "Track normalized content IDs while preserving input order.",
+      "Return new dictionaries so annotations do not modify the raw records."
+    ]
+  },
+  {
+    "number": 5,
+    "title": "Represent local overlap",
+    "symbols": "shingles",
+    "chapter": "course/chapters/05_shingles.md",
+    "tests": [
+      "grader/test_stages.py::test_05"
+    ],
+    "hints": [
+      "A shingle is a consecutive word window.",
+      "Enumerate only windows with all n words present.",
+      "Short documents produce no windows, not one empty window."
+    ]
+  },
+  {
+    "number": 6,
+    "title": "Group transitive near duplicates",
+    "symbols": "duplicate_components",
+    "chapter": "course/chapters/06_duplicate-components.md",
+    "tests": [
+      "grader/test_stages.py::test_06"
+    ],
+    "hints": [
+      "Similarity edges are not themselves duplicate groups.",
+      "Take connected components over the pairwise matches.",
+      "A-B and B-C edges put A,B,C together even without an A-C edge."
+    ]
+  },
+  {
+    "number": 7,
+    "title": "Split groups, not rows",
+    "symbols": "split_groups",
+    "chapter": "course/chapters/07_split-groups.md",
+    "tests": [
+      "grader/test_stages.py::test_07"
+    ],
+    "hints": [
+      "Assign one bucket to an entire group.",
+      "Choose group identity independently of input ordering.",
+      "The smallest member ID and salt determine the digest bucket."
+    ]
+  },
+  {
+    "number": 8,
+    "title": "Decontaminate against held-out content",
+    "symbols": "decontaminate",
+    "chapter": "course/chapters/08_decontaminate.md",
+    "tests": [
+      "grader/test_stages.py::test_08"
+    ],
+    "hints": [
+      "Check candidates against reserved content only.",
+      "Use both exact normalized matches and shingle overlap.",
+      "Short exact matches must still be removed when their shingle sets are empty."
+    ]
+  },
+  {
+    "number": 9,
+    "title": "Sample a reproducible mixture",
+    "symbols": "sample_mixture",
+    "chapter": "course/chapters/09_sample-mixture.md",
+    "tests": [
+      "grader/test_stages.py::test_09"
+    ],
+    "hints": [
+      "Separate the choice of source from the choice of record.",
+      "Sort source names before applying seeded randomness.",
+      "Zero weight removes a source from draws without changing the original data."
+    ]
+  },
+  {
+    "number": 10,
+    "title": "Pack without erasing boundaries",
+    "symbols": "pack_documents",
+    "chapter": "course/chapters/10_pack-documents.md",
+    "tests": [
+      "grader/test_stages.py::test_10"
+    ],
+    "hints": [
+      "Preserve three coordinate systems: document, packed row and document position.",
+      "Flush before adding a document that would overflow the current block.",
+      "Mask first-document targets and padding; do not split an oversized document silently."
+    ]
+  },
+  {
+    "number": 11,
+    "title": "Build isolated causal visibility",
+    "symbols": "attention_mask",
+    "chapter": "course/chapters/11_attention-mask.md",
+    "tests": [
+      "grader/test_stages.py::test_11"
+    ],
+    "hints": [
+      "Visibility requires both causality and matching segment identity.",
+      "Padding has no valid segment.",
+      "A query cannot read another document even if that key is earlier."
+    ]
+  },
+  {
+    "number": 12,
+    "title": "Write an immutable dataset artifact",
+    "symbols": "write_dataset",
+    "chapter": "course/chapters/12_write-dataset.md",
+    "tests": [
+      "grader/test_stages.py::test_12"
+    ],
+    "hints": [
+      "Choose serialization before computing the digest.",
+      "A newline follows each record, including the last.",
+      "Check existing outputs before writing either file."
+    ]
+  },
+  {
+    "number": 13,
+    "title": "Integrate the preparation pipeline",
+    "symbols": "prepare_dataset",
+    "chapter": "course/chapters/13_prepare-dataset.md",
+    "tests": [
+      "grader/test_stages.py::test_13"
+    ],
+    "hints": [
+      "Order the policies before composing them.",
+      "Validate raw IDs, then filter, deduplicate, decontaminate and group.",
+      "Annotate copied records with split and content identity before writing."
+    ]
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "course": "01-autograd",
+    "seed": 1729,
+    "exit_code": 0,
+    "passed": 33,
+    "failed": 0,
+    "skipped": 0
+  },
+  {
+    "course": "02-pretraining",
+    "seed": 1729,
+    "exit_code": 0,
+    "passed": 29,
+    "failed": 0,
+    "skipped": 0
+  },
+  {
+    "course": "03-data",
+    "seed": 1729,
+    "exit_code": 0,
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0
+  },
+  {
+    "course": "04-finetuning",
+    "seed": 1729,
+    "exit_code": 0,
+    "passed": 25,
+    "failed": 0,
+    "skipped": 0
+  },
+  {
+    "course": "05-evaluation",
+    "seed": 1729,
+    "exit_code": 0,
+    "passed": 21,
+    "failed": 0,
+    "skipped": 0
+  },
+  {
+    "course": "06-inference",
+    "seed": 1729,
+    "exit_code": 0,
+    "passed": 47,
+    "failed": 0,
+    "skipped": 0
+  },
+  {
+    "course": "07-distributed",
+    "seed": 1729,
+    "exit_code": 0,
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0
+  },
+  {
+    "course": "08-releases",
+    "seed": 1729,
+    "exit_code": 0,
+    "passed": 15,
+    "failed": 0,
+    "skipped": 0
+  }
+]

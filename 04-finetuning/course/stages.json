@@ -1,0 +1,198 @@
+[
+  {
+    "number": 1,
+    "title": "Serialize supervised conversations",
+    "symbols": "chat_tokens",
+    "chapter": "course/chapters/01_chat-tokens.md",
+    "tests": [
+      "grader/test_stages.py::test_01"
+    ],
+    "hints": [
+      "Create supervision information while serializing.",
+      "Role headers are context even for assistant messages.",
+      "Assistant content and its EOS are supervised; BOS and headers are not."
+    ]
+  },
+  {
+    "number": 2,
+    "title": "Collate variable-length examples",
+    "symbols": "collate",
+    "chapter": "course/chapters/02_collate.md",
+    "tests": [
+      "grader/test_stages.py::test_02"
+    ],
+    "hints": [
+      "Keep input visibility separate from target supervision.",
+      "Right-padding needs both a false attention bit and label -100.",
+      "Leave shifting to the loss function."
+    ]
+  },
+  {
+    "number": 3,
+    "title": "Shift and mask supervised loss",
+    "symbols": "masked_loss",
+    "chapter": "course/chapters/03_masked-loss.md",
+    "tests": [
+      "grader/test_stages.py::test_03"
+    ],
+    "hints": [
+      "Pair a target with the logit immediately before it.",
+      "Apply the mask after shifting the labels.",
+      "Divide by the number of supervised targets, not by padded sequence length."
+    ]
+  },
+  {
+    "number": 4,
+    "title": "Implement low-rank adaptation",
+    "symbols": "LoRALinear",
+    "chapter": "course/chapters/04_loralinear.md",
+    "tests": [
+      "grader/test_stages.py::test_04"
+    ],
+    "hints": [
+      "Write the matrix shapes before choosing their order.",
+      "One factor starts nonzero and the other starts at zero.",
+      "The low-rank path must preserve arbitrary leading input dimensions."
+    ]
+  },
+  {
+    "number": 5,
+    "title": "Inject adapters deliberately",
+    "symbols": "inject_lora",
+    "chapter": "course/chapters/05_inject-lora.md",
+    "tests": [
+      "grader/test_stages.py::test_05"
+    ],
+    "hints": [
+      "Resolve all requested module names before replacing any.",
+      "Qualified paths distinguish identically named nested layers.",
+      "Validation failure must leave every target module unchanged."
+    ]
+  },
+  {
+    "number": 6,
+    "title": "Control the trainable boundary",
+    "symbols": "freeze_except_adapters",
+    "chapter": "course/chapters/06_freeze-except-adapters.md",
+    "tests": [
+      "grader/test_stages.py::test_06"
+    ],
+    "hints": [
+      "Identify adapter parameters by object membership.",
+      "Freeze the whole model, then select actual adapter A/B objects.",
+      "An unrelated parameter named A is not sufficient evidence of an adapter."
+    ]
+  },
+  {
+    "number": 7,
+    "title": "Run one supervised update",
+    "symbols": "sft_step",
+    "chapter": "course/chapters/07_sft-step.md",
+    "tests": [
+      "grader/test_stages.py::test_07"
+    ],
+    "hints": [
+      "Construct the optimizer from the intended trainable parameters.",
+      "Use the same masked loss tested in the prior stage.",
+      "The first update may move B without moving A."
+    ]
+  },
+  {
+    "number": 8,
+    "title": "Merge an adapter for inference",
+    "symbols": "merge_lora",
+    "chapter": "course/chapters/08_merge-lora.md",
+    "tests": [
+      "grader/test_stages.py::test_08"
+    ],
+    "hints": [
+      "Compare the adapter path with an equivalent dense weight.",
+      "Preserve the original layer while constructing the merged result.",
+      "Include alpha/rank exactly once."
+    ]
+  },
+  {
+    "number": 9,
+    "title": "Score whole responses",
+    "symbols": "sequence_logps",
+    "chapter": "course/chapters/09_sequence-logps.md",
+    "tests": [
+      "grader/test_stages.py::test_09"
+    ],
+    "hints": [
+      "Score only response targets under their preceding context.",
+      "Sum selected log probabilities separately for each example.",
+      "An all-masked row sums to zero; do not normalize by response length."
+    ]
+  },
+  {
+    "number": 10,
+    "title": "Derive the DPO objective",
+    "symbols": "dpo_loss",
+    "chapter": "course/chapters/10_dpo-loss.md",
+    "tests": [
+      "grader/test_stages.py::test_10"
+    ],
+    "hints": [
+      "Compute two chosen-versus-rejected margins.",
+      "Subtract the reference margin from the policy margin.",
+      "The reference contributes values but must not receive gradients."
+    ]
+  },
+  {
+    "number": 11,
+    "title": "Optimize a preference pair",
+    "symbols": "dpo_step",
+    "chapter": "course/chapters/11_dpo-step.md",
+    "tests": [
+      "grader/test_stages.py::test_11"
+    ],
+    "hints": [
+      "Keep policy and reference execution roles separate.",
+      "Reference evaluation runs without a differentiation graph.",
+      "When both models match, the initial loss is log(2)."
+    ]
+  },
+  {
+    "number": 12,
+    "title": "Extract portable adapter weights",
+    "symbols": "adapter_state",
+    "chapter": "course/chapters/12_adapter-state.md",
+    "tests": [
+      "grader/test_stages.py::test_12"
+    ],
+    "hints": [
+      "Save adapter state without including base weights.",
+      "Use qualified module paths and actual adapter types.",
+      "Detached CPU clones prevent later training from altering the snapshot."
+    ]
+  },
+  {
+    "number": 13,
+    "title": "Bind an adapter to its base",
+    "symbols": "save_adapter",
+    "chapter": "course/chapters/13_save-adapter.md",
+    "tests": [
+      "grader/test_stages.py::test_13"
+    ],
+    "hints": [
+      "An adapter is meaningful relative to a particular base.",
+      "Store rank and scale alongside its matrices.",
+      "The digest returned describes adapter file bytes; base_sha256 names a different artifact."
+    ]
+  },
+  {
+    "number": 14,
+    "title": "Restore an adapter atomically",
+    "symbols": "load_adapter",
+    "chapter": "course/chapters/14_load-adapter.md",
+    "tests": [
+      "grader/test_stages.py::test_14"
+    ],
+    "hints": [
+      "Plan the whole restore before modifying parameters.",
+      "Check identity, configuration, keys and every shape first.",
+      "A malformed final tensor must not cause partial restoration of earlier tensors."
+    ]
+  }
+]

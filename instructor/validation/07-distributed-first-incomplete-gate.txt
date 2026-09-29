@@ -1,0 +1,19 @@
+Stage 1: Partition examples without duplication — cumulative gate
+.F
+=================================== FAILURES ===================================
+___________________________________ test_01 ____________________________________
+grader/test_stages.py:13: in test_01
+    parts = [api.partition_indices(7, r, 3) for r in range(3)]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grader/test_stages.py:13: in <listcomp>
+    parts = [api.partition_indices(7, r, 3) for r in range(3)]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/learner/api.py:13: in partition_indices
+    raise NotImplementedError("Implement partition_indices; see course list/read")
+E   NotImplementedError: Implement partition_indices; see course list/read
+- generated xml file: /Users/connor/Code/ai/courses/07-distributed/.course/runs/20260928T191526453651Z.xml -
+=========================== short test summary info ============================
+FAILED grader/test_stages.py::test_01 - NotImplementedError: Implement partit...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 1 passed in 0.13s
+No cumulative completion claim. Read the stage contract or request a conceptual hint.
